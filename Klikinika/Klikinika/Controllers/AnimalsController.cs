@@ -55,4 +55,35 @@ public class AnimalsController : ControllerBase
 
         return Ok(animal);
     }
+    [HttpDelete("{id:int}")]
+    public IActionResult DeleteAnimal(int id)
+    {
+        _animalsService.DeleteAnimal(id);
+        return NoContent();
+    }
+
+    [HttpGet("{id:int}/visits")]
+    public IActionResult GetAnimalsWithVisits(int id)
+    {
+        return Ok(_animalsService.GetAnimalsWithVisits(id));
+    }
+
+    [HttpPost("/AddVisit")]
+    public IActionResult AddVisit([FromBody]Visit visit, [FromQuery]int animalId)
+    {
+        var addedVisit = _animalsService.AddVisit(visit, animalId);
+
+        if (addedVisit != null)
+        {
+            return CreatedAtAction(
+                nameof(GetAnimal),
+                new { id = addedVisit.animal.Id },
+                new { Message = "Wizyta została dodana pomyślnie.", Visit = addedVisit }
+            );
+        }
+        else
+        {
+            return NotFound(new { Message = "Nie znaleziono zwierzęcia o podanym Id." });
+        }
+    }
 }

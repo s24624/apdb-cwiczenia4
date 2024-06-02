@@ -33,4 +33,21 @@ public class AnimalsService : IAnimalsService
         _animalsRepository.UpdateAnimal(updatedAnimal);
         return updatedAnimal;
     }
+
+    public Animal DeleteAnimal(int id)
+    {
+        _animalsRepository.DeleteAnimal(id);
+        return null;
+    }
+
+    public IEnumerable<Visit> GetAnimalsWithVisits(int id)
+    {
+        return _animalsRepository.GetAnimalsWithVisits(id);
+    }
+
+    public Visit AddVisit(Visit visit, int animalId)
+    {
+        _animalsRepository.AddVisit(visit, animalId);
+        return visit;
+    }
 }
